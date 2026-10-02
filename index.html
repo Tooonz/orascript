@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>OraScript – Creating a Sustainable Paperless Classroom</title>
+<style>
+:root{--bg:#faf3e6;--bg2:#f1e6d0;--glass:rgba(255,252,246,.8);--line:rgba(120,90,60,.2);--ink:#3b2f24;--mute:#8a7560;
+--a:#b07a4a;--b:#d4a373;--c:#c0873f;--grad:linear-gradient(135deg,#a8683a,#cf9a62);--onacc:#fff;--tint:rgba(150,110,70,.1);--chip:rgba(176,122,74,.16)}
+@media (prefers-color-scheme:dark){:root{--bg:#211a14;--bg2:#2c231b;--glass:rgba(255,240,215,.07);--line:rgba(240,215,180,.16);--ink:#f6ecd9;--mute:#bfa98c;--a:#d9a56e;--b:#e8c08f;--c:#e2b36e;--grad:linear-gradient(135deg,#b9763f,#d9a56e);--onacc:#2a1d12;--tint:rgba(240,215,180,.08);--chip:rgba(217,165,110,.18)}}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;color:var(--ink);font-family:"Segoe UI",system-ui,-apple-system,Roboto,sans-serif;line-height:1.6;
+background:radial-gradient(900px 500px at 10% -10%,rgba(222,176,120,.35),transparent),radial-gradient(800px 500px at 100% 0,rgba(240,205,160,.35),transparent),var(--bg);background-attachment:fixed}
+.wrap{max-width:960px;margin:0 auto;padding:0 20px}
+.hero{text-align:center;padding:70px 0 44px}
+.pill{display:inline-block;padding:5px 14px;border:1px solid var(--line);border-radius:99px;background:var(--glass);font-size:.82rem;color:var(--mute);margin-bottom:18px}
+h1,h2,h3{font-family:Georgia,"Palatino Linotype","Book Antiqua",serif}
+h1{font-size:clamp(2.6rem,9vw,4.6rem);margin:0;letter-spacing:-1px;line-height:1.05}
+h1 span{background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent}
+.tag{font-size:clamp(1.05rem,3vw,1.4rem);margin:10px 0 16px;font-weight:600}
+.sum{max-width:640px;margin:0 auto 28px;color:var(--mute)}
+.btns{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin-bottom:34px}
+button{font:inherit;cursor:pointer;border-radius:12px;border:1px solid var(--line);background:var(--glass);color:var(--ink);padding:11px 20px;font-weight:600;transition:.2s}
+button:hover{transform:translateY(-2px);border-color:var(--a)}
+button.p{background:var(--grad);border:0;color:var(--onacc);box-shadow:0 8px 24px rgba(168,104,58,.3)}
+button:disabled{opacity:.5;cursor:wait;transform:none}
+.saver{display:inline-block;text-align:left;padding:18px 26px;border-radius:18px;background:var(--glass);border:1px solid var(--line);backdrop-filter:blur(10px)}
+.saver .lbl{font-size:.82rem;color:var(--mute)}
+.saver .big{font-size:2.2rem;font-weight:800;line-height:1.1;background:linear-gradient(135deg,var(--c),var(--b));-webkit-background-clip:text;background-clip:text;color:transparent}
+.saver .row{display:flex;gap:26px;flex-wrap:wrap;margin-top:10px;font-size:.82rem;color:var(--mute)}
+.saver .row strong{display:block;color:var(--ink);font-size:1.05rem}
+nav{position:sticky;top:0;z-index:5;backdrop-filter:blur(14px);background:color-mix(in srgb,var(--bg) 70%,transparent);border-bottom:1px solid var(--line)}
+nav .wrap{display:flex;gap:8px;overflow-x:auto;padding-top:10px;padding-bottom:10px}
+nav button{white-space:nowrap;padding:8px 16px}
+nav button.on{background:var(--grad);border:0;color:var(--onacc)}
+.panel{display:none;padding:34px 0 8px;animation:in .35s}.panel.on{display:block}
+@keyframes in{from{opacity:0;transform:translateY(8px)}}
+h2{margin:0 0 16px;font-size:1.7rem}
+.card{background:var(--glass);border:1px solid var(--line);border-radius:18px;padding:22px;margin-bottom:18px;backdrop-filter:blur(8px)}
+textarea,input,select{width:100%;font:inherit;padding:12px;border-radius:12px;border:1px solid var(--line);background:var(--tint);color:var(--ink);outline:0}
+textarea:focus,input:focus,select:focus{border-color:var(--a)}
+textarea{min-height:220px;resize:vertical}
+select option{color:#3b2f24}
+.flex{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-bottom:12px}
+.status{font-size:.9rem;color:var(--mute);margin-top:10px}
+.dot{display:inline-block;width:10px;height:10px;border-radius:50%;background:var(--b);margin-right:7px;animation:pl 1s infinite}
+@keyframes pl{50%{opacity:.2;transform:scale(.7)}}
+.chat{max-height:360px;overflow-y:auto;display:flex;flex-direction:column;gap:10px;margin-bottom:14px}
+.m{padding:11px 15px;border-radius:16px;max-width:88%;white-space:pre-wrap}
+.m.u{align-self:flex-end;background:var(--grad);color:var(--onacc);border-bottom-right-radius:4px}
+.m.a{align-self:flex-start;background:var(--chip);border-bottom-left-radius:4px}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:16px}
+.grid .card{margin:0}.grid h3{margin:0 0 6px}
+.ic{font-size:1.7rem;display:block;margin-bottom:6px}
+.credits{margin-top:40px;padding:22px 0 34px;border-top:1px solid var(--line);text-align:center;color:var(--mute)}
+.credits strong{background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent}
+</style>
+</head>
+<body>
+<header class="hero"><div class="wrap">
+  <span class="pill">🎙️ Speech-to-text · ♿ Accessible · 📄 Paperless</span>
+  <h1><span>OraScript</span></h1>
+  <p class="tag">Creating a Sustainable Paperless Classroom</p>
+  <p class="sum">OraScript turns a teacher's voice into precise text notes in real time. Students stop copying on paper, classrooms cut waste and their carbon footprint, and lessons become accessible to students with disabilities. A tiny AI tutor answers student questions straight from the lecture.</p>
+  <div class="btns">
+    <button class="p" data-tab="student">🎓 Student Portal</button>
+    <button class="p" data-tab="teacher">🎙️ Teacher Portal</button>
+  </div>
+  <div class="saver">
+    <div class="lbl">📄 Paper saved by one class · 43 students × 10 pages a day</div>
+    <div class="big" id="sday"></div>
+    <div class="row">
+      <div><strong id="sweek"></strong>per week</div>
+      <div><strong id="syear"></strong>per school year</div>
+      <div><strong id="stree"></strong>trees / year*</div>
+    </div>
+  </div>
+</div></header>
+
+<nav><div class="wrap">
+  <button data-tab="student">Student Portal</button>
+  <button data-tab="teacher">Teacher Portal</button>
+  <button data-tab="about">About Us</button>
+  <button data-tab="why">Why OraScript</button>
+</div></nav>
+
+<main class="wrap">
+<section class="panel" id="student">
+  <h2>🎓 Student Portal</h2>
+  <div class="card">
+    <p style="margin-top:0;color:var(--mute)">Ask anything about the lesson, in any language. The AI tutor answers from the teacher's latest lecture.</p>
+    <div class="chat" id="chat"><div class="m a">Hi! 👋 Ask me a question about today's class, or send me a math problem.</div></div>
+    <div class="flex" style="margin:0"><input id="q" placeholder="Type your question…" style="flex:1;min-width:200px"><button class="p" id="ask">Ask</button></div>
+  </div>
+</section>
+
+<section class="panel" id="teacher">
+  <h2>🎙️ Teacher Portal</h2>
+  <div class="card">
+    <div class="flex">
+      <button class="p" id="rec">● Start Recording</button>
+      <button id="sync">Sync to Students</button>
+      <button id="clr">Clear</button>
+      <button id="cpy">Copy</button>
+      <button id="dl">Save .txt</button>
+      <select id="lang" style="width:auto" title="Speaking language">
+        <option value="en-US">English</option><option value="en-IN">English (India)</option>
+        <option value="hi-IN">Hindi</option><option value="ta-IN">Tamil</option>
+        <option value="mr-IN">Marathi</option><option value="es-ES">Spanish</option><option value="fr-FR">French</option>
+      </select>
+      <select id="eng" style="width:auto" title="Microphone engine"><option value="browser">Mic: Browser (live)</option><option value="backup">Mic: Backup (works everywhere)</option></select>
+    </div>
+    <textarea id="notes" placeholder="Your spoken words will appear here. You can also edit them before syncing."></textarea>
+    <div class="status" id="rstat">Ready. The browser will ask for microphone permission.</div>
+  </div>
+</section>
+
+<section class="panel" id="about">
+  <h2>About Us</h2>
+  <div class="card">
+    <p style="margin-top:0">We are <strong>Havish Mistry</strong> and <strong>Paavani Iyer</strong>, two students who noticed how much paper one class fills with handwritten notes every day, and how hard note-taking can be for classmates with disabilities.</p>
+    <p style="margin-bottom:0">OraScript started as a Python speech-to-text program for our science fair. It now runs as a full classroom tool with a teacher portal and a local AI tutor for students.</p>
+  </div>
+  <div class="grid">
+    <div class="card"><span class="ic">🎯</span><h3>Our mission</h3>Every lesson accessible to everyone, with zero paper wasted.</div>
+    <div class="card"><span class="ic">🧠</span><h3>Our approach</h3>Speech recognition for teachers and a small AI tutor for students.</div>
+    <div class="card"><span class="ic">🌍</span><h3>Our goal</h3>A greener classroom and a smaller carbon footprint.</div>
+  </div>
+</section>
+
+<section class="panel" id="why">
+  <h2>Why OraScript?</h2>
+  <div class="grid">
+    <div class="card"><span class="ic">🌱</span><h3>Sustainable</h3>One class of 43 students using 10 pages a day uses 430 pages daily. Digital notes remove that waste.</div>
+    <div class="card"><span class="ic">♿</span><h3>Accessible</h3>Live text supports students who are deaf, hard of hearing, or unable to write quickly.</div>
+    <div class="card"><span class="ic">⚡</span><h3>Effortless</h3>The teacher just speaks. Notes are ready to edit, copy, save and share.</div>
+    <div class="card"><span class="ic">🌐</span><h3>Multilingual</h3>The tutor replies in the same language the student asks in.</div>
+    <div class="card"><span class="ic">🔒</span><h3>Private</h3>The AI key stays safely on the server, never in the student's browser.</div>
+    <div class="card"><span class="ic">🗂️</span><h3>Organised</h3>Searchable text never gets lost, torn or left at home.</div>
+  </div>
+</section>
+
+<div class="credits">Made by <strong>Havish Mistry</strong> and <strong>Paavani Iyer</strong><br><small>OraScript · Science Fair Project</small>
+<br><small>*Approx. 8,333 sheets per tree; 5-day week, 190-day school year.</small></div>
+</main>
+
+<script>
+const $=id=>document.getElementById(id);
+const API=location.protocol==='file:'?'http://127.0.0.1:5000':'';
+const day=43*10,f=n=>n.toLocaleString();
+$('sday').textContent=f(day)+' pages / day';
+$('sweek').textContent=f(day*5)+' pages';
+$('syear').textContent=f(day*190)+' pages';
+$('stree').textContent=(day*190/8333).toFixed(1);
+
+function show(t){
+  document.querySelectorAll('.panel').forEach(p=>p.classList.toggle('on',p.id===t));
+  document.querySelectorAll('nav button').forEach(b=>b.classList.toggle('on',b.dataset.tab===t));
+  document.querySelector('nav').scrollIntoView({behavior:'smooth'});
+}
+document.querySelectorAll('[data-tab]').forEach(b=>b.onclick=()=>show(b.dataset.tab));
+show('student');scrollTo(0,0);
+
+/* ---- Teacher: speech to text + sync to Flask ---- */
+const notes=$('notes'),SR=window.SpeechRecognition||window.webkitSpeechRecognition;
+let rec,on=false,base='',timer,lastErr='';
+async function sync(msg){
+  const lesson=notes.value.trim();
+  if(!lesson){$('rstat').textContent='\u26a0\ufe0f No words were captured, so your microphone is sending no sound. Fix: Windows Settings \u2192 System \u2192 Sound \u2192 Input, pick your real mic and check the volume bar moves when you talk. Then click the lock icon in the address bar \u2192 Microphone and choose the same mic.';return}
+  try{
+    const r=await fetch(API+'/store-lesson',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({lesson})});
+    const d=await r.json();
+    $('rstat').textContent=d.success?'✅ '+(msg||'Lesson synced to students.'):'⚠️ '+d.error;
+  }catch(e){$('rstat').textContent='⚠️ Could not reach the OraScript server. Is app.py running?'}
+}
+$('sync').onclick=()=>sync();
+notes.addEventListener('input',()=>{clearTimeout(timer);timer=setTimeout(()=>sync('Edits synced.'),1500)});
+$('rec').onclick=()=>{
+  if(bk.on){stopBackup();return}
+  if($('eng').value==='backup'||!SR){startBackup();return}
+  if(on){rec.stop();return}
+  rec=new SR();rec.continuous=true;rec.interimResults=true;rec.lang=$('lang').value;
+  base=notes.value?notes.value.trim()+' ':'';lastErr='';
+  rec.onresult=e=>{let fin='',tmp='';
+    for(let i=0;i<e.results.length;i++){const t=e.results[i][0].transcript;e.results[i].isFinal?fin+=t:tmp+=t}
+    notes.value=base+fin+tmp};
+  rec.onerror=e=>{lastErr=e.error;const h={'not-allowed':'Microphone blocked. Click the lock icon in the address bar and allow the microphone.','service-not-allowed':'Microphone blocked. Click the lock icon in the address bar and allow the microphone.','no-speech':'No speech heard. Check that the right microphone is selected in Windows Sound settings, and speak closer.','audio-capture':'No microphone found. Plug one in or check Windows Sound settings.','network':'Browser speech service unreachable. Switch "Mic" to Backup and try again.'};$('rstat').textContent='\u26a0\ufe0f '+(h[e.error]||'Mic error: '+e.error)};
+  rec.onend=()=>{on=false;$('rec').textContent='● Start Recording';if(lastErr){lastErr='';return}sync('Recording stopped and lesson synced.')};
+  try{rec.start();on=true;$('rec').textContent='■ Stop Recording';$('rstat').innerHTML='<span class="dot"></span>Listening… speak clearly.'}
+  catch(e){$('rstat').textContent='Could not start: '+e.message}
+};
+$('clr').onclick=()=>{notes.value=''};
+$('cpy').onclick=async()=>{try{await navigator.clipboard.writeText(notes.value);$('rstat').textContent='Copied to clipboard.'}catch(e){notes.select()}};
+$('dl').onclick=()=>{const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([notes.value],{type:'text/plain'}));a.download='orascript-notes.txt';a.click()};
+
+
+/* ---- Backup mic: record WAV chunks, send to /transcribe ---- */
+if(!SR)$('eng').value='backup';
+const bk={on:false};
+function wavB64(f32,rate){
+  const r=rate/16000,n=Math.floor(f32.length/r),pcm=new Int16Array(n);
+  for(let i=0;i<n;i++){let a=0,c=0;for(let j=Math.floor(i*r);j<Math.floor((i+1)*r)&&j<f32.length;j++){a+=f32[j];c++}
+    const v=Math.max(-1,Math.min(1,c?a/c:0));pcm[i]=v<0?v*32768:v*32767}
+  const b=new ArrayBuffer(44+n*2),d=new DataView(b),w=(o,t)=>{for(let i=0;i<t.length;i++)d.setUint8(o+i,t.charCodeAt(i))};
+  w(0,'RIFF');d.setUint32(4,36+n*2,true);w(8,'WAVEfmt ');d.setUint32(16,16,true);d.setUint16(20,1,true);d.setUint16(22,1,true);
+  d.setUint32(24,16000,true);d.setUint32(28,32000,true);d.setUint16(32,2,true);d.setUint16(34,16,true);w(36,'data');d.setUint32(40,n*2,true);
+  new Int16Array(b,44).set(pcm);
+  let s='';const u=new Uint8Array(b);for(let i=0;i<u.length;i+=8192)s+=String.fromCharCode.apply(null,u.subarray(i,i+8192));
+  return btoa(s);
+}
+async function flushBackup(){
+  if(!bk.buf.length)return;
+  const len=bk.buf.reduce((a,x)=>a+x.length,0),all=new Float32Array(len);let o=0;
+  for(const x of bk.buf){all.set(x,o);o+=x.length}bk.buf=[];
+  let peak=0;for(let i=0;i<all.length;i+=50)peak=Math.max(peak,Math.abs(all[i]));
+  if(peak<0.01){$('rstat').innerHTML='<span class="dot"></span>Listening, but the mic is silent. Check Windows Sound settings \u2192 Input.';return}
+  try{
+    const r=await fetch(API+'/transcribe',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({audio:wavB64(all,bk.rate)})});
+    const d=await r.json();
+    if(d.success){if(d.text){notes.value=(notes.value.trim()+' '+d.text).trim();}$('rstat').innerHTML='<span class="dot"></span>Listening\u2026 speak clearly.'}
+    else $('rstat').textContent='\u26a0\ufe0f '+d.error;
+  }catch(e){$('rstat').textContent='\u26a0\ufe0f Could not reach the OraScript server.'}
+}
+async function startBackup(){
+  try{
+    bk.stream=await navigator.mediaDevices.getUserMedia({audio:true});
+    bk.ctx=new (window.AudioContext||window.webkitAudioContext)();bk.rate=bk.ctx.sampleRate;bk.buf=[];
+    const src=bk.ctx.createMediaStreamSource(bk.stream);bk.proc=bk.ctx.createScriptProcessor(4096,1,1);
+    bk.proc.onaudioprocess=e=>{bk.buf.push(new Float32Array(e.inputBuffer.getChannelData(0)))};
+    src.connect(bk.proc);bk.proc.connect(bk.ctx.destination);
+    bk.timer=setInterval(flushBackup,8000);bk.on=true;
+    $('rec').textContent='\u25a0 Stop Recording';$('rstat').innerHTML='<span class="dot"></span>Listening\u2026 text appears every few seconds.';
+  }catch(e){const m={NotAllowedError:'The browser or Windows is blocking the microphone. Open Windows Settings \u2192 Privacy & security \u2192 Microphone and turn ON microphone access and "Let desktop apps access your microphone". Also check chrome://settings/content/microphone (or edge://settings/content/microphone) is not set to Block.',NotFoundError:'No microphone was found. Plug one in, or enable it in Windows Settings \u2192 System \u2192 Sound \u2192 Input (also check Device Manager if it is disabled).',NotReadableError:'Your microphone is being used by another app or tab (Zoom, Teams, another browser tab, a recorder). Close it and try again.',SecurityError:'The browser blocks the mic on this address. Open the site at http://127.0.0.1:5000'};
+    $('rstat').textContent='\u26a0\ufe0f '+(!navigator.mediaDevices?'This address does not allow microphones. Open http://127.0.0.1:5000 in Chrome or Edge.':(m[e.name]||'Microphone error: '+e.name+' '+e.message))}
+}
+async function stopBackup(){
+  bk.on=false;clearInterval(bk.timer);bk.proc.disconnect();bk.stream.getTracks().forEach(t=>t.stop());
+  $('rec').textContent='\u25cf Start Recording';$('rstat').textContent='Finishing\u2026';
+  await flushBackup();bk.ctx.close();await sync('Recording stopped and lesson synced.');
+}
+
+/* ---- Student: ask the local AI via Flask ---- */
+const chat=$('chat');
+function add(c,t){const d=document.createElement('div');d.className='m '+c;d.textContent=t;chat.appendChild(d);chat.scrollTop=chat.scrollHeight;return d}
+async function ask(){
+  const question=$('q').value.trim();if(!question)return;
+  $('q').value='';add('u',question);
+  const out=add('a','Thinking…');$('ask').disabled=true;
+  try{
+    const r=await fetch(API+'/ask-question',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({question})});
+    const d=await r.json();
+    out.textContent=d.success?d.ai_response:'Sorry, the AI had a problem: '+(d.error||'unknown error');
+  }catch(e){out.textContent='Could not reach the OraScript server. Make sure app.py is running.'}
+  finally{$('ask').disabled=false}
+}
+$('ask').onclick=ask;$('q').addEventListener('keydown',e=>{if(e.key==='Enter')ask()});
+</script>
+</body>
+</html>
